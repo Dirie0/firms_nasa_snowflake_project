@@ -1,0 +1,24 @@
+[project]
+name = "firms-snowflake-project"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Dirie",email = "dirieisse0@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "pandas (>=3.0.6,<4.0.0)",
+    "requests (>=2.34.2,<3.0.0)",
+    "numpy (>=2.5.4,<3.0.0)",
+    "python-dotenv (>=1.2.4,<2.0.0)",
+    "boto3 (>=1.43.114,<2.0.0)",
+    "great-expectations (>=1.24.0,<2.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "firms_snowflake_project", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
