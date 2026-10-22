@@ -1,0 +1,17 @@
+- { name: DETECTION_ID, type: VARCHAR, nullable: false }
+- { name: DETECTED_AT_UTC, type: TIMESTAMP_NTZ }
+- { name: COUNTRY_ISO3, type: VARCHAR }
+- { name: SATELLITE, type: VARCHAR }
+- { name: INSTRUMENT, type: VARCHAR }
+- { name: LATITUDE, type: FLOAT }
+- { name: LONGITUDE, type: FLOAT }
+- { name: BRIGHTNESS_TI4_K, type: FLOAT }
+- { name: BRIGHTNESS_TI5_K, type: FLOAT }
+- { name: FRP_MW, type: FLOAT }
+- { name: SCAN_KM, type: FLOAT }
+- { name: TRACK_KM, type: FLOAT }
+- { name: PIXEL_AREA_KM2, type: FLOAT }
+- { name: CONFIDENCE_LEVEL, type: VARCHAR }
+- { name: IS_DAYTIME, type: BOOLEAN }
+- { name: PRODUCT_VERSION, type: VARCHAR }
+- { name: BATCH_ID, type: VARCHAR, nullable: false }

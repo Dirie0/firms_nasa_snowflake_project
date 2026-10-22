@@ -1,0 +1,3 @@
+- { name: COUNTRY_ISO3, type: VARCHAR, nullable: false }
+- { name: COUNTRY_NAME, type: VARCHAR }
+- { name: CONTINENT, type: VARCHAR }

@@ -1,0 +1,7 @@
+- { name: BATCH_ID, type: VARCHAR, nullable: false }
+- { name: PROCESSED_AT, type: TIMESTAMP_TZ }
+- { name: ROWS_IN, type: NUMBER }
+- { name: ROWS_REJECTED, type: NUMBER }
+- { name: ROWS_CLEAN, type: NUMBER }
+- { name: ROWS_FILTERED, type: NUMBER }
+- { name: ROWS_DUPLICATE, type: NUMBER }

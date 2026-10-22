@@ -1,0 +1,4 @@
+- { name: SATELLITE, type: VARCHAR, nullable: false }
+- { name: SATELLITE_NAME, type: VARCHAR }
+- { name: INSTRUMENT, type: VARCHAR }
+- { name: SOURCE, type: VARCHAR }

@@ -1,0 +1,16 @@
+- { name: BATCH_ID, type: VARCHAR }
+- { name: LATITUDE, type: VARCHAR }
+- { name: LONGITUDE, type: VARCHAR }
+- { name: BRIGHT_TI4, type: VARCHAR }
+- { name: SCAN, type: VARCHAR }
+- { name: TRACK, type: VARCHAR }
+- { name: ACQ_DATE, type: VARCHAR }
+- { name: ACQ_TIME, type: VARCHAR }
+- { name: SATELLITE, type: VARCHAR }
+- { name: INSTRUMENT, type: VARCHAR }
+- { name: CONFIDENCE, type: VARCHAR }
+- { name: VERSION, type: VARCHAR }
+- { name: BRIGHT_TI5, type: VARCHAR }
+- { name: FRP, type: VARCHAR }
+- { name: DAYNIGHT, type: VARCHAR }
+- { name: REJECT_REASON, type: VARCHAR }
