@@ -124,6 +124,7 @@ AWS keys live in the `aws_default` Airflow connection (step 7), not in `.env`.
 
 ### 🛠️ 4. Provision infrastructure with Terraform
 
+```
 example terraform.tfvars
 organization_name = ""
 account_name      = ""
@@ -131,6 +132,7 @@ private_key_path  = ""
 aws_region        = ""
 aws_account_id    = ""
 bucket_name       = ""
+```
 
 ```bash
 cd terraform_snowflake
@@ -141,6 +143,17 @@ terraform apply -var-file=terraform.tfvars
 ```
 
 Creates the database, schema, warehouse, 5 tables, S3 storage integration, stage, file format, and the IAM role Snowflake assumes.
+
+The config is split into four modules under `terraform_snowflake/modules/`:
+
+| Module | What it creates |
+|--------|-----------------|
+| `foundation` | The database, schema and warehouse everything else hangs off |
+| `tables` | The 5 Snowflake tables (fact, rejected, run summary, 2 dimensions) |
+| `s3_integration` | The storage integration, external stage and CSV file format Snowflake uses to read S3 |
+| `aws_iam` | The AWS IAM role Snowflake assumes — trusts Snowflake's user, grants read-only on the bucket's `tables/` and `reference/` prefixes |
+
+`s3_integration` and `aws_iam` form a handshake: the integration points at the role ARN, and the role trusts the IAM user Snowflake generates in return.
 
 ### 🌍 5. Build the reference data (one-off)
 
@@ -208,17 +221,20 @@ Common Airflow ops live in `airflow/Makefile`: `make up`, `make down`, `make res
 ## 🧠 Design Notes
 
 - **ETL, not ELT** — validation, de-duplication and the country join happen in Python; Snowflake only ever sees clean tables.
-- **S3 is the handoff** between steps (not XCom), keyed by date, so every run is deterministic and re-runnable.
+- **S3 is the handoff** between steps (not XCom), keyed by date, so every run is deterministic, re-runnable
 - **Idempotent loads** — each load is delete-then-`COPY INTO` per `BATCH_ID` in a single transaction.
 - **Bad rows are data** — invalid rows go to `REJECTED_DETECTIONS` with a reason; the run continues.
-- **Least privilege** — key-pair auth, a read-only IAM role scoped to `tables/` and `reference/`, no stored passwords.
+- **Isolated Python environment**- the scripts run in their own Poetry virtualenv and Airflow calls them with BashOperator instead of PythonOperator. pandas and geopandas never share a Python environment with Airflow, so their dependencies can’t clash, and each script runs the same way by hand as in the DAG.
 
 ## 📈 Future Enhancements
 
 - 🔔 Alerting on failures and reject-rate spikes
+- 📊 Dashboard over the fact and dimension tables (fires per day, top countries, intensity by confidence) plus a pipeline-health view built from RUN_SUMMARY
 - 🗃️ Remote Terraform backend (S3 + locking)
 - 🧊 Staging tables + `MERGE` for late or overlapping batches
 - 🧹 S3 lifecycle rules on `raw/` and `transformed/`
+- 🔐 Dedicated Snowflake role for Airflow, limited to FIRMS_WH and the FIRMS schema, created in Terraform
+- 🧪 CI: run full coverage pytests, terraform fmt -check and terraform validate on every push
 
 ## 👨‍💻 Author
 
