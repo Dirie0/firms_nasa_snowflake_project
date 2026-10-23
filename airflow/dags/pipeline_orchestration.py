@@ -1,11 +1,3 @@
-"""FIRMS VIIRS NOAA-20 NRT -> S3 -> Snowflake.
-
-Every Python step runs `poetry run python <script>.py --date {{ ds }}` from the python_scripts folder.
-Data moves between steps through S3 (not XCom); the date links them.
-AWS credentials come from the Airflow connection `aws_default`; no keys live in code or in the scripts' .env.
-Snowflake loads render sql/load_table.sql once per table.
-"""
-
 from datetime import datetime, timedelta
 
 from airflow import DAG

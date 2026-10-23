@@ -27,5 +27,4 @@ module "aws_iam" {
   role_name             = var.iam_role_name
   bucket_name           = var.bucket_name
   snowflake_iam_user    = module.s3_integration.storage_aws_iam_user_arn
-  snowflake_external_id = module.s3_integration.storage_aws_external_id
 }

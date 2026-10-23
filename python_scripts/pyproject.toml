@@ -1,7 +1,7 @@
 [project]
 name = "firms-snowflake-project"
 version = "0.1.0"
-description = "NASA FIRMS (VIIRS NPP, NOAA-20, NOAA-21 NRT) fire data: extract, transform, split and upload to S3 for Snowflake"
+description = "NASA FIRMS (VIIRS NOAA-20 NRT) fire data: extract, transform and split to S3 for Snowflake"
 authors = [
     {name = "Dirie", email = "dirieisse0@gmail.com"}
 ]
