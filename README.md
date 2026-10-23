@@ -84,6 +84,32 @@ extract ➝ transform ➝ split ➝ [load_fact, load_rejected, load_run_summary]
 
 Airflow handles retries (3×, exponential backoff), logging and task chaining.
 
+### 🛰️ The FIRMS API
+
+`extract` pulls from the NASA FIRMS **Area API**, which returns CSV fire detections for a bounding box and day range:
+
+```
+/api/area/csv/[MAP_KEY]/[SOURCE]/[AREA]/[DAY_RANGE]/[DATE]
+```
+
+- **`MAP_KEY`** — your free API key (`MAP_KEY` in `.env`). Request one at <https://firms.modaps.eosdis.nasa.gov/api/area/>.
+- **`SOURCE`** — the satellite feed; this pipeline uses `VIIRS_NOAA20_NRT` (near-real-time).
+- **`AREA`** — `west,south,east,north` or `world` (`-180,-90,180,90`).
+- **`DAY_RANGE`** — 1–5 days per request; the pipeline queries one day at a time.
+- **`DATE`** — `YYYY-MM-DD`; returns `DATE … DATE + DAY_RANGE-1`. Omit for the most recent data.
+
+Key usage is capped, so check remaining transactions with `/api/data_availability/` or the map-key status endpoint. NRT data is made available within ~60 minutes of satellite overpass.
+
+### 📦 Poetry
+
+Poetry manages the ETL scripts' dependencies in an isolated virtualenv — separate from Airflow's own Python, so pandas/geopandas can't clash with it.
+
+- `pyproject.toml` declares dependencies; `poetry.lock` pins exact versions for reproducible installs.
+- `poetry install` creates the venv and installs the locked versions.
+- `poetry run python <script>.py` runs a script inside that venv.
+
+The Airflow image installs the same lockfile and invokes the scripts with `BashOperator`, so a script runs identically by hand and in the DAG.
+
 ## 🏁 Setup
 
 ### ✅ 1. Prerequisites
