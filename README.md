@@ -235,11 +235,42 @@ Unpause `firms_snowflake_pipeline` in the Airflow UI — it backfills from the s
 SELECT * FROM FIRMS_DB.FIRMS.RUN_SUMMARY ORDER BY BATCH_ID;
 ```
 
-Run a single step by hand:
+# Manual Testing
 
 ```bash
 cd python_scripts
+#one off to build dimension tables
+poetry run prepare_countries.py 
+
+#end to end
 poetry run python extract.py --date 2026-10-16
+poetry run python transform_data.py --date 2026-10-16
+poetry run python split_data_into_tables.py --date 2026-10-16
+
+#snowflake table loads from s3
+
+
+COPY INTO FIRMS_DB.FIRMS.DETECTIONS
+FROM @FIRMS_DB.FIRMS.FIRMS_S3_STAGE/tables/date=2026-10-16/
+FILES = ('detections.csv')
+FILE_FORMAT = (FORMAT_NAME = 'FIRMS_DB.FIRMS.FIRMS_CSV')
+ON_ERROR = ABORT_STATEMENT
+FORCE = TRUE;
+
+
+COPY INTO FIRMS_DB.FIRMS.REJECTED_DETECTIONS
+FROM @FIRMS_DB.FIRMS.FIRMS_S3_STAGE/tables/date=2026-10-16/
+FILES = ('rejected_detections.csv')
+FILE_FORMAT = (FORMAT_NAME = 'FIRMS_DB.FIRMS.FIRMS_CSV')
+ON_ERROR = ABORT_STATEMENT
+FORCE = TRUE;
+
+COPY INTO FIRMS_DB.FIRMS.RUN_SUMMARY
+FROM @FIRMS_DB.FIRMS.FIRMS_S3_STAGE/tables/date=2026-10-16/
+FILES = ('run_summary.csv')
+FILE_FORMAT = (FORMAT_NAME = 'FIRMS_DB.FIRMS.FIRMS_CSV')
+ON_ERROR = ABORT_STATEMENT
+FORCE = TRUE;
 ```
 
 Common Airflow ops live in `airflow/Makefile`: `make up`, `make down`, `make restart` (after editing `.env`), `make logs`, `make ps`.
@@ -265,7 +296,3 @@ Common Airflow ops live in `airflow/Makefile`: `make up`, `make down`, `make res
 ## 👨‍💻 Author
 
 Dirie — Data Engineer.
-
-## 📜 Licence
-
-MIT Licence — free to use, modify, and learn 
