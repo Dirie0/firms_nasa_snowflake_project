@@ -1,0 +1,5 @@
+batch_id,latitude,longitude,bright_ti4,scan,track,acq_date,acq_time,satellite,instrument,confidence,version,bright_ti5,frp,daynight,reject_reason
+2026-10-15,-14.79107,-41.62281,367.0,0.42,0.45,2026-10-15,1607,N20,VIIRS,l,2.0NRT,347.22,0.0,D,frp_not_positive
+2026-10-15,-14.79055,-41.61892,367.0,0.41,0.45,2026-10-15,1607,N20,VIIRS,h,2.0NRT,364.15,0.0,D,frp_not_positive
+2026-10-15,-14.78692,-41.62335,356.01,0.42,0.45,2026-10-15,1607,N20,VIIRS,n,2.0NRT,300.75,0.0,D,frp_not_positive
+2026-10-15,-14.7864,-41.61944,352.59,0.41,0.45,2026-10-15,1607,N20,VIIRS,n,2.0NRT,304.11,0.0,D,frp_not_positive

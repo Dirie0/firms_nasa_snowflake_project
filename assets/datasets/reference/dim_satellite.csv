@@ -1,0 +1,4 @@
+satellite,satellite_name,instrument,source
+N,Suomi NPP,VIIRS,VIIRS_SNPP_NRT
+N20,NOAA-20,VIIRS,VIIRS_NOAA20_NRT
+N21,NOAA-21,VIIRS,VIIRS_NOAA21_NRT
